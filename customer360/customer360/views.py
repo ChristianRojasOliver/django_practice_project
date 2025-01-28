@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from datetime import date, timedelta
 from django.db.models import Count
-from .models import *
+from . models import *
 
+# Create your views here.
 def index(request):
     customers = Customer.objects.all()
     context = {"customers":customers}
@@ -19,6 +20,7 @@ def create_customer(request):
         msg = "Successfully Saved a Customer"
         return render(request,"add.html",context={"msg":msg})
     return render(request,"add.html")
+
 
 def summary(request):
     thirty_days_ago = date.today() - timedelta(days=30)
