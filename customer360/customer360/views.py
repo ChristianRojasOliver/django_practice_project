@@ -33,3 +33,25 @@ def summary(request):
 
     return render(request,"summary.html",context=context)
 
+def interact(request,cid):
+
+    channels = Interaction.CHANNEL_CHOICES
+    directions = Interaction.DIRECTION_CHOICES
+    context = {"channels":channels,"directions":directions}
+
+    if request.method == "POST":
+
+        customer = Customer.objects.get(id=cid)
+        channel = request.POST["channel"]
+        direction = request.POST["direction"]
+        summary = request.POST["summary"]
+        interaction = Interaction.objects.create(
+                                    customer=customer,
+                                    channel=channel,
+                                    direction=direction,
+                                    summary=summary)
+        interaction.save()
+        context["msg"] = "Interaction Success"
+        return render(request,"interact.html",context=context)
+
+    return render(request,"interact.html",context=context)
